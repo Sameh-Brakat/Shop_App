@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/models/login_model.dart';
@@ -22,9 +24,14 @@ class LoginCubit extends Cubit<LoginStates> {
       'email': email,
       'password': password,
     }).then((value) {
-      print(value!.data);
+      // print(value!.data);
+      // print(value!.data.runtimeType);
+      // print(value!.runtimeType);
+      // var jsonMap = json.decode(value.data);
+      // print(jsonMap);
+      // print(jsonMap.runtimeType);
 
-      loginModeldata = LoginModel.fromJson(value.data);
+      loginModeldata = LoginModel.fromJson(value?.data);
 
       emit(LoginSuccessState(loginModeldata!));
     }).catchError((error) {

@@ -11,7 +11,6 @@ ThemeData lightMode = ThemeData(
     actionsIconTheme: IconThemeData(color: Colors.black),
     backgroundColor: Colors.white,
     elevation: 0,
-    backwardsCompatibility: false,
     systemOverlayStyle: SystemUiOverlayStyle(
         statusBarColor: Colors.grey, statusBarBrightness: Brightness.dark),
     titleTextStyle: TextStyle(
@@ -36,7 +35,6 @@ ThemeData darkMode = ThemeData(
     actionsIconTheme: IconThemeData(color: Color(0xFFB8DBD9)),
     backgroundColor: Color.fromRGBO(0, 0, 0, 1),
     elevation: 0,
-    backwardsCompatibility: false,
     systemOverlayStyle: SystemUiOverlayStyle(
         statusBarColor: Color.fromRGBO(0, 0, 0, 1),
         statusBarBrightness: Brightness.light),

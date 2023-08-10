@@ -12,7 +12,7 @@ class SearchModel {
 
 class Data {
   int? currentPage;
-  List<Product>? data;
+  List<ProductData>? data;
   String? firstPageUrl;
   int? from;
   int? lastPage;
@@ -27,9 +27,9 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
     if (json['data'] != null) {
-      data = <Product>[];
+      data = <ProductData>[];
       json['data'].forEach((v) {
-        data!.add(Product.fromJson(v));
+        data!.add(ProductData.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -45,18 +45,20 @@ class Data {
   }
 }
 
-class Product {
+class ProductData {
   int? id;
-  dynamic? price;
+  dynamic price;
   String? image;
   String? name;
   String? description;
+  List? images;
 
-  Product.fromJson(Map<String, dynamic> json) {
+  ProductData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     price = json['price'];
     image = json['image'];
     name = json['name'];
     description = json['description'];
+    images = json['images'];
   }
 }

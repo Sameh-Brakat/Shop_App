@@ -36,6 +36,9 @@ void main() async {
     widget = OnBoardingScreen();
   }
 
+
+
+
   runApp(MyApp(startWidget: widget));
 }
 
@@ -54,7 +57,7 @@ class MyApp extends StatelessWidget {
             ..getHomeData()
             ..getCategoriesData()
             ..getFavData()
-            ..getProfileData(),
+            ..getProfileData()..getCartsData(),
         ),
         BlocProvider(create: (context) => LoginCubit()),
         BlocProvider(create: (context) => RegisterCubit()),

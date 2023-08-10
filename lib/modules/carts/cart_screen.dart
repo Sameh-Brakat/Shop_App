@@ -1,29 +1,29 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/models/get_fav_model.dart';
 import 'package:shop_app/models/product_details_model.dart';
+
 import '../../layout/cubit/cubit.dart';
 import '../../layout/cubit/states.dart';
+import '../../models/cart_model.dart';
+import '../../shared/components/constants.dart';
 import '../contents_screen/contents.dart';
 
-class FavoritesScreen extends StatelessWidget {
+class CartsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
       builder: (context, state) {
         return ConditionalBuilder(
-          condition: state is! AppLoadingGetFavDataState,
-          builder: (BuildContext context) =>
+          condition: state is! GetCartDataLoadingState,
+          builder: (BuildContext context) => Stack(
+            children: [
               ListView.separated(
                 itemBuilder: (context, index) =>
-                    FavItem(
+                    CartItem(
                         AppCubit
-                            .get(context)
-                            .getFavModel!
-                            .data!
-                            .data![index].product!,
+                            .get(context).cartModel!.data!.cartItems![index].product!,
                         context),
                 separatorBuilder: (context, index) =>
                     Container(
@@ -34,11 +34,31 @@ class FavoritesScreen extends StatelessWidget {
                     ),
                 itemCount: AppCubit
                     .get(context)
-                    .getFavModel!
-                    .data!
-                    .data!
-                    .length,
+                    .cartModel!.data!.cartItems!.length,
               ),
+              Positioned(
+                  left: 5,
+                  right: 5,
+                  bottom: 5,
+                  child: Container(
+                    width: double.infinity, // Occupy full width
+                    height: 60,
+                    color: Colors.blue,
+                    child: MaterialButton(
+                      onPressed: () {
+                        // Button action
+                      },
+                      color: defaultColorLight,
+                      textColor: Colors.white,
+                      child: Text('BUY ${AppCubit
+                          .get(context)
+                          .cartModel!.data!.cartItems!.length} ITEMS FOR ${AppCubit
+                          .get(context)
+                          .cartModel!.data!.total} EGP'),
+                    ),
+                  ))
+            ],
+          ),
           fallback: (BuildContext context) =>
               Center(child: CircularProgressIndicator()),
         );
@@ -46,37 +66,15 @@ class FavoritesScreen extends StatelessWidget {
     );
   }
 
-  Widget FavItem(Product model, context) =>
+  Widget CartItem(Product model, context) =>
       InkWell(
         onTap: () async{
-
-
           await AppCubit.get(context).getProduct(id: model.id);
           ProductDetailsModel detailsModel = AppCubit.get(context).productDetailsModel!;
 
-
-          // print(detailsModel.data?.id);
-
-
           Navigator.push(context, MaterialPageRoute(builder: (context) => PrevItem(detailsModel: detailsModel),));
 
-          // SearchCubit searchCubit = SearchCubit.get(context);
-          // searchCubit.searchProduct(text: '', desiredId: model.id!);
-          //
-          // SearchModel? searchModel = searchCubit.getSearchModel();
-          // List<String>? images = searchCubit.getImageList();
-          //
-          // if (searchModel != null && images != null) {
-          //   // Access the search results and image list
-          //   // ...
-          // } else {
-          //   // Handle the case when search results or image list are not available
-          //   // ...
-          // }
 
-
-          // Navigator.push(context, MaterialPageRoute(builder: (context) =>
-          //     PrevItem(id: model.id!,),));
         },
         child: Container(
           margin: EdgeInsets.all(20),
@@ -136,7 +134,7 @@ class FavoritesScreen extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '${model.price.round()} LE',
+                          '${model.price} LE',
                           style: TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 16),
                         ),
@@ -146,7 +144,7 @@ class FavoritesScreen extends StatelessWidget {
                         model.oldPrice == model.price
                             ? Text('')
                             : Text(
-                          '${model.oldPrice.round()} LE',
+                          '${model.oldPrice} LE',
                           style: const TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontWeight: FontWeight.bold,

@@ -1,8 +1,11 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/modules/contents_screen/contents.dart';
 import 'package:shop_app/shared/components/components.dart';
 
+import '../../layout/cubit/cubit.dart';
+import '../../models/product_details_model.dart';
 import '../../models/search_model.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
@@ -24,6 +27,12 @@ class SearchScreen extends StatelessWidget {
             title: Form(
               key: formKey,
               child: DefaultForm(
+                onChange: (p0) {
+                  if (formKey.currentState!.validate()) {
+                    SearchCubit.get(context)
+                        .search(text: searchController.text);
+                  }
+                },
                 controller: searchController,
                 type: TextInputType.text,
                 label: 'Search',
@@ -52,12 +61,22 @@ class SearchScreen extends StatelessWidget {
                   builder: (BuildContext context) => ListView.separated(
                       shrinkWrap: true,
                       physics: BouncingScrollPhysics(),
-                      itemBuilder: (context, index) => SearchItem(
-                          SearchCubit.get(context)
+                      itemBuilder: (context, index) => InkWell(
+                        onTap: () async {
+                          await AppCubit.get(context).getProduct(id: SearchCubit.get(context)
                               .searchModel!
                               .data!
-                              .data![index],
-                          context),
+                              .data![index].id);
+                          ProductDetailsModel detailsModel = AppCubit.get(context).productDetailsModel!;
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PrevItem(detailsModel: detailsModel),));
+                        },
+                        child: SearchItem(
+                            SearchCubit.get(context)
+                                .searchModel!
+                                .data!
+                                .data![index],
+                            context),
+                      ),
                       separatorBuilder: (context, index) => Container(
                             height: 1,
                             width: double.infinity,
@@ -79,7 +98,7 @@ class SearchScreen extends StatelessWidget {
     );
   }
 
-  Widget SearchItem(Product model, context) => Container(
+  Widget SearchItem(ProductData model, context) => Container(
         margin: EdgeInsets.all(20),
         height: 120,
         child: Row(

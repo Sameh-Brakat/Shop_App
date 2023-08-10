@@ -58,8 +58,8 @@ class FavData {
 
 class Product {
   int? id;
-  dynamic? price;
-  dynamic? oldPrice;
+  dynamic price;
+  dynamic oldPrice;
   int? discount;
   String? image;
   String? name;

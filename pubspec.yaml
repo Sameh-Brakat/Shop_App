@@ -43,6 +43,7 @@ dependencies:
   conditional_builder_null_safety: ^0.0.6
   fluttertoast: ^8.1.3
   carousel_slider: ^4.2.1
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,5 @@
+import 'package:shop_app/models/product_details_model.dart';
+
 import '../../../models/search_model.dart';
 
 abstract class SearchStates {}
@@ -17,3 +19,8 @@ class SearchErrorState extends SearchStates {
 
   SearchErrorState(this.error);
 }
+
+class SearchIndexChangeState extends SearchStates {}
+
+
+

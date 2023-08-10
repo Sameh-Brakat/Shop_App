@@ -11,4 +11,8 @@ const HOME = 'home';
 const CATEGORIES = 'categories';
 
 const FAVORITES = 'favorites';
+const CARTS = 'carts';
+
 const SEARCH = 'products/search';
+
+const PRODUCTS = 'products';
